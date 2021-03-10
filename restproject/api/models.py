@@ -38,7 +38,7 @@ class Order(models.Model):
     address = models.CharField(max_length=100)
     quantity = models.PositiveIntegerField()
     status = models.CharField(choices=statuses, max_length=20, default='pending')
-    total_price = models.PositiveIntegerField(default=0)
+    total_sum = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         try:

@@ -41,12 +41,12 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'book', 'date_create', 'address', 'status', 'quantity', 'total_price']
 
     def get_total_price(self, obj):
-        total_price = 0
+        total_sum = 0
         try:
-            total_price += obj.quantity * obj.book.price
-            obj.total_price = total_price
+            total_sum += obj.quantity * obj.book.price
+            obj.total_price = total_sum
             obj.save()
-            return total_price
+            return total_sum
         except AttributeError:
             return 0
 
