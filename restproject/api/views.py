@@ -62,6 +62,14 @@ class OrderAPIView(views.APIView):
             return Response(serializer.data)
 
 
+class ModifyOrder(views.APIView):
+
+    def delete(self, request, order_id):
+        order = Order.objects.get(id=order_id)
+        order.delete()
+        return Response({'data': 'successfully deleted!'})
+
+
 class MyOrdersAPIViews(views.APIView):
 
     def get(self, request, *args, **kwargs):
@@ -101,4 +109,3 @@ class ContactAPIView(views.APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-
