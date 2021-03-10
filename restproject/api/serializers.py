@@ -16,16 +16,25 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class AuthorSerializer(serializers.ModelSerializer):
-    books = BookSerializer(many=True)
+    books = BookSerializer(many=True, required=False)
+
     class Meta:
         model = Author
         fields = ['id', 'name', 'date_birth', 'date_death', 'bio', 'country', 'books']
 
+    def create(self, validated_data):
+        books_data = validated_data.pop('books')
+        author = Author.objects.create(**validated_data)
+        for book in books_data:
+            Book.objects.create(author=author, **book)
+        return author
+
 
 class OrderSerializer(serializers.ModelSerializer):
-    #book = serializers.PrimaryKeyRelatedField(required=True)
+    # book = serializers.PrimaryKeyRelatedField(required=True)
     status = serializers.CharField(read_only=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault)
+
     class Meta:
         model = Order
         fields = ['id', 'user', 'book', 'date_create', 'address', 'status', 'quantity']
@@ -34,11 +43,19 @@ class OrderSerializer(serializers.ModelSerializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = '__all__'
+        fields = ['id', 'type', 'info']
 
 
 class BranchSerializer(serializers.ModelSerializer):
     contacts = ContactSerializer(many=True)
+
     class Meta:
         model = Branch
         fields = ['name', 'contacts']
+
+    def create(self, validated_data):
+        contacts_data = validated_data.pop('contacts')
+        branch = Branch.objects.create(**validated_data)
+        for contact in contacts_data:
+            Contact.objects.create(branch=branch, **contact)
+        return branch

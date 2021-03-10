@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from .serializers import *
-from rest_framework import views,viewsets
+from rest_framework import views, viewsets
 
 
 # Create your views here.
@@ -40,6 +40,7 @@ class AuthorView(views.APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({'data': 'Ok'})
+        return Response(serializer.errors)
 
 
 class OrderAPIView(views.APIView):
@@ -61,7 +62,6 @@ class OrderAPIView(views.APIView):
             return Response(serializer.data)
 
 
-
 class MyOrdersAPIViews(views.APIView):
 
     def get(self, request, *args, **kwargs):
@@ -69,9 +69,11 @@ class MyOrdersAPIViews(views.APIView):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
+
 class OrderModelViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
 
 class BranchAPIView(views.APIView):
     def get(self, request, *args, **kwargs):
@@ -84,6 +86,8 @@ class BranchAPIView(views.APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors)
+
 
 class ContactAPIView(views.APIView):
 
@@ -97,3 +101,4 @@ class ContactAPIView(views.APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+
