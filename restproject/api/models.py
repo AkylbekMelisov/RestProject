@@ -38,7 +38,6 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField()
     status = models.CharField(choices=statuses, max_length=20, default='pending')
 
-
     def __str__(self):
         try:
             return f"Заказ с товаром: {self.book.title}"
@@ -49,8 +48,10 @@ class Order(models.Model):
         verbose_name = 'Заказы'
         verbose_name_plural = 'Заказы'
 
+
 class Branch(models.Model):
     name = models.CharField(max_length=40)
+
 
 class Contact(models.Model):
     types = (
@@ -58,5 +59,6 @@ class Contact(models.Model):
         ('phone', 'phone'),
         ('address', 'address')
     )
-    info = models.CharField(choices=types, max_length=40, default='phone')
+    info = models.CharField(max_length=40, default='phone')
+    type = models.CharField(choices=types, max_length=40)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='contacts')
