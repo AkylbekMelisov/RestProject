@@ -33,7 +33,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     # book = serializers.PrimaryKeyRelatedField(required=True)
     status = serializers.CharField(read_only=True)
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     total_price = serializers.SerializerMethodField()
 
     class Meta:
@@ -41,12 +41,12 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'book', 'date_create', 'address', 'status', 'quantity', 'total_price']
 
     def get_total_price(self, obj):
-        total_sum = 0
+        total_price = 0
         try:
-            total_sum += obj.quantity * obj.book.price
-            obj.total_price = total_sum
+            total_price += obj.quantity * obj.book.price
+            obj.total_sum = total_price
             obj.save()
-            return total_sum
+            return total_price
         except AttributeError:
             return 0
 
