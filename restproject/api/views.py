@@ -14,18 +14,9 @@ class UserView(views.APIView):
         return Response(serializer.data)
 
 
-class BookView(views.APIView):
-
-    def get(self, request, *args, **kwargs):
-        books = Book.objects.all()
-        serializer = BookSerializer(books, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, *args, **kwargs):
-        serializer = BookSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'data': 'Ok'})
+class BookView(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
 
 class AuthorView(views.APIView):
@@ -66,10 +57,10 @@ class ModifyOrder(views.APIView):
 
     def put(self, request, *args, **kwargs):
         order = Order.objects.get(id=kwargs['order_id'])
-        serializer = OrderSerializer(order,data=request.data)
+        serializer = OrderSerializer(order, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"data":"OK!!!"})
+            return Response({"data": "OK!!!"})
         return Response(serializer.errors)
 
     def delete(self, request, order_id):
