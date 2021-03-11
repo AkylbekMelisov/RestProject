@@ -8,6 +8,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     year = models.DateField()
+    abbr = models.CharField(max_length=20, unique=True)
     book_file = models.FileField(blank=True)
     price = models.PositiveIntegerField(default=0)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True, related_name='books')
