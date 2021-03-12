@@ -1,6 +1,6 @@
 from .models import Comment
 from api.models import Book
-from rest_framework.serializers import ModelSerializer
+addfrom rest_framework.serializers import ModelSerializer, Serializer, CharField
 
 
 class CommentSerializer(ModelSerializer):
@@ -15,3 +15,7 @@ class BookDetailSerializer(ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'description', 'price', 'year', 'author', 'comment_set']
+
+
+class CommentCreateSerializer(Serializer):
+    text = CharField(allow_blank=False)
