@@ -12,6 +12,7 @@ urlpatterns = [
     path('authors/', AuthorView.as_view()),
     path('order/', OrderAPIView.as_view()),
     path('order/<int:order_id>/', ModifyOrder.as_view()),
+    path('book/<str:abbr>/', BookDemoView.as_view()),
     path('branches/', BranchAPIView.as_view()),
     path('contacts/', ContactAPIView.as_view()),
     path('', include(router.urls)),
