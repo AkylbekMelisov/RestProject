@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'api',
     'quickstart',
     'comments',
+    'estimate',
 ]
 
 MIDDLEWARE = [
