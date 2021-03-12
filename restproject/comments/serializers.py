@@ -1,6 +1,6 @@
 from .models import Comment
 from api.models import Book
-addfrom rest_framework.serializers import ModelSerializer, Serializer, CharField
+from rest_framework.serializers import ModelSerializer, Serializer, CharField
 
 
 class CommentSerializer(ModelSerializer):
