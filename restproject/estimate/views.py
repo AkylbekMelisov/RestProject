@@ -1,3 +1,18 @@
 from django.shortcuts import render
+from rest_framework.response import Response
 
-# Create your views here.
+from .models import Rate, Book
+from .serializers import RateSerializer
+from rest_framework import views
+
+
+class RateView(views.APIView):
+
+    def post(self, request, *args, **kwargs):
+        book = Book.objects.get(id=kwargs['book_id'])
+        serializer = RateSerializer(data=request.data)
+        if serializer.is_valid():
+            star = serializer.data.get('star')
+            Rate.objects.create(book=book, star=star)
+            return Response({"data": "Thank you for rating!"})
+        return Response(serializer.errors)
