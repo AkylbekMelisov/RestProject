@@ -23,7 +23,7 @@ class BookDetailSerializer(ModelSerializer):
         total_sum = 0
         for rate in obj.rates.all():
             total_sum += rate.star
-            avg_rate = total_sum / len(obj.rates.all())
+            avg_rate = round(total_sum / len(obj.rates.all()), 1)
         return avg_rate
 
 
