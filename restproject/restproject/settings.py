@@ -124,3 +124,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'jabanm2021@gmail.com'
+EMAIL_HOST_PASSWORD = 'Pizz!123a'
+EMAIL_PORT = 587
