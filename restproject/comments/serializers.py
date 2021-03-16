@@ -19,12 +19,12 @@ class BookDetailSerializer(ModelSerializer):
     class Meta:
         model = Book
         fields = ['id', 'title', 'description', 'price', 'year', 'author', 'comment_set', 'rates', 'avg_rate', 'sale',
-                  'sale_price']
+                  'sale_price', 'sale_amount']
 
     def get_sale_price(self, obj):
         sale_price = 0
         if obj.sale:
-            sale_price = obj.price - obj.price * 0.2
+            sale_price = obj.price - obj.price * (obj.sale_amount) / 100
             return sale_price
         return obj.price
 

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'quickstart',
     'comments',
     'estimate',
+    'accounts',
 ]
 
 MIDDLEWARE = [
