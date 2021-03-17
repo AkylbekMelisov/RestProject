@@ -42,6 +42,10 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField()
     status = models.CharField(choices=statuses, max_length=20, default='pending')
     total_sum = models.PositiveIntegerField(default=0)
+    payment_type = models.CharField(choices=(
+        ('card', 'card'),
+        ('cash', 'cash'),
+    ), max_length=10, default='cash')
 
     def __str__(self):
         try:
