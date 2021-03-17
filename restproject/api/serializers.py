@@ -40,7 +40,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'user', 'book', 'date_create', 'address', 'status', 'quantity', 'total_price']
+        fields = ['id', 'user', 'book', 'date_create', 'address', 'status', 'quantity', 'total_price', 'payment_type']
 
     def get_total_price(self, obj):
         total_price = 0
@@ -48,6 +48,9 @@ class OrderSerializer(serializers.ModelSerializer):
             total_price += obj.quantity * obj.book.price
             obj.total_sum = total_price
             obj.save()
+            if obj.payment_type == 'card':
+                obj.user.profile.wallet -= total_price
+                obj.user.profile.save()
             return total_price
         except AttributeError:
             return 0
