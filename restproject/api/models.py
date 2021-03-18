@@ -38,7 +38,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     date_create = models.DateTimeField(auto_now_add=True)
-    address = models.CharField(max_length=100)
+    address = models.CharField(max_length=100, null=True)
     quantity = models.PositiveIntegerField()
     status = models.CharField(choices=statuses, max_length=20, default='pending')
     total_sum = models.PositiveIntegerField(default=0)
