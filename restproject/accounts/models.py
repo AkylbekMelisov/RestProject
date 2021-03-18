@@ -9,6 +9,7 @@ class Profile(models.Model):
     date_join = models.DateTimeField(auto_now_add=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     wallet = models.PositiveIntegerField(default=0)
+    address = models.CharField(max_length=50)
 
     def __str__(self):
         return self.full_name
