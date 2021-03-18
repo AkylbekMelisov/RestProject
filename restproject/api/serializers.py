@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+
 from .models import *
 
 
@@ -46,11 +48,19 @@ class OrderSerializer(serializers.ModelSerializer):
         total_price = 0
         try:
             total_price += obj.quantity * obj.book.price
+            if obj.address is None:
+                obj.address = obj.user.profile.address
             obj.total_sum = total_price
-            obj.save()
             if obj.payment_type == 'card':
-                obj.user.profile.wallet -= total_price
-                obj.user.profile.save()
+                if obj.user.profile.wallet >= total_price:
+                    obj.user.profile.wallet -= total_price
+                    obj.user.profile.save()
+                    obj.save()
+                else:
+                    obj.delete()
+                    raise ValidationError("Not enough money")
+            else:
+                obj.save()
             return total_price
         except AttributeError:
             return 0
